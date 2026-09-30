@@ -1,0 +1,36 @@
+# Copy to config.yaml and edit:  cp config.example.yaml config.yaml
+
+# What the agent may buy. Liquid, diversified ETFs make a sensible start.
+universe: [SPY, QQQ, IWM, EFA, EEM, TLT, IEF, GLD, VNQ]
+
+# Run `invest-agent strategies` to list all of them.
+strategy: dual_momentum
+strategy_params:
+  top_n: 3
+  lookbacks: [63, 126, 252]   # ~3, 6, 12 months of trading days
+  safe_asset: BIL             # T-bills ETF used when momentum turns negative
+  weighting: equal            # or inverse_vol
+
+rebalance: monthly            # daily | weekly | monthly
+benchmark: SPY
+
+# paper  = local simulation, no account needed (the default)
+# alpaca = Alpaca brokerage; paper account unless live trading is confirmed
+broker: paper
+data_source: yahoo            # yahoo | csv (reads data_dir/<SYMBOL>.csv)
+starting_cash: 10000          # paper broker and backtests only
+slippage_bps: 5
+commission_per_trade: 0
+fractional_shares: true
+state_dir: state
+
+# Real money needs BOTH this set to true AND INVEST_AGENT_LIVE=I_UNDERSTAND_THE_RISKS
+# in the environment, with broker: alpaca.
+live_trading: false
+
+risk:
+  max_position_weight: 0.35
+  min_cash_weight: 0.02
+  max_drawdown: 0.30          # liquidate + halt at 30% below peak (1.0 disables)
+  min_trade_value: 25
+  rebalance_threshold: 0.02
