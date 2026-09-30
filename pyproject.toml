@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "invest-agent"
+version = "0.1.0"
+description = "Rules-based investment agent with paper trading, backtesting and pluggable brokers"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "pyyaml>=6.0",
+    "requests>=2.31",
+    "yfinance>=0.2.40",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+invest-agent = "invest_agent.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["invest_agent*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
